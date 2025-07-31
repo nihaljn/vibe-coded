@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paper Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📄 Paper Tracker</h1>
+            <p>Track your arXiv papers</p>
+        </header>
+
+        <div class="add-paper">
+            <form id="addPaperForm">
+                <input type="url" id="arxivUrl" placeholder="Enter arXiv URL (e.g., https://arxiv.org/abs/2301.00001)" required autocomplete="off">
+                <button type="submit">Add Paper</button>
+            </form>
+        </div>
+
+        <div class="filters">
+            <button id="showAll" class="filter-btn active">All</button>
+            <button id="showHighlighted" class="filter-btn">Highlighted</button>
+            <button id="exportBtn" class="export-btn">Export Data</button>
+        </div>
+
+        <div id="papers" class="papers-table-container">
+            <table class="papers-table">
+                <thead>
+                    <tr>
+                        <th>Status</th>
+                        <th>Title</th>
+                        <th>Authors</th>
+                        <th>Published</th>
+                        <th>Tags</th>
+                        <th>Comments</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="papersTableBody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Edit Paper</h2>
+            <form id="editForm">
+                <div class="form-group">
+                    <label for="editTags">Tags (comma-separated):</label>
+                    <div class="tag-input-container">
+                        <input type="text" id="editTags" placeholder="machine learning, transformers, nlp" autocomplete="off">
+                        <div id="tagDropdown" class="tag-dropdown"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="editComments">Comments:</label>
+                    <textarea id="editComments" placeholder="Your notes about this paper..." autocomplete="off"></textarea>
+                </div>
+                <button type="submit">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

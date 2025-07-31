@@ -1,0 +1,528 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    width: 100%;
+    margin: 0;
+    padding: 10px 30px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    color: #2c3e50;
+}
+
+header p {
+    color: #7f8c8d;
+    font-size: 1.1rem;
+}
+
+.add-paper {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+.add-paper form {
+    display: flex;
+    gap: 10px;
+}
+
+.add-paper input {
+    flex: 1;
+    padding: 12px;
+    border: 2px solid #e1e8ed;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+.add-paper input:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+.add-paper button {
+    padding: 12px 24px;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.add-paper button:hover {
+    background: #2980b9;
+}
+
+.filters {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    align-items: center;
+}
+
+.filter-btn {
+    padding: 8px 16px;
+    border: 2px solid #e1e8ed;
+    background: white;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.filter-btn.active,
+.filter-btn:hover {
+    background: #3498db;
+    color: white;
+    border-color: #3498db;
+}
+
+.export-btn {
+    margin-left: auto;
+    padding: 8px 16px;
+    background: #27ae60;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.export-btn:hover {
+    background: #219a52;
+}
+
+.papers-table-container {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    overflow: auto;
+}
+
+.papers-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.papers-table th,
+.papers-table td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #e1e8ed;
+    border-right: 1px solid #f0f0f0;
+    line-height: 1.3;
+    vertical-align: top;
+}
+
+.papers-table th:last-child,
+.papers-table td:last-child {
+    border-right: none;
+}
+
+.papers-table th {
+    background: #f8f9fa;
+    font-weight: 600;
+    color: #000;
+    font-size: 14px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.sortable {
+    cursor: pointer;
+    user-select: none;
+}
+
+.sortable:hover {
+    background: #e9ecef;
+}
+
+.sortable.sorted {
+    background: #dee2e6;
+}
+
+.sort-arrow {
+    font-size: 12px;
+    margin-left: 4px;
+    color: #666;
+}
+
+.papers-table th.resizable {
+    position: relative;
+}
+
+.resize-handle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 5px;
+    height: 100%;
+    cursor: col-resize;
+    background: transparent;
+    z-index: 20;
+}
+
+.resize-handle:hover {
+    background: #3498db;
+    opacity: 0.5;
+}
+
+.papers-table th:nth-child(1),
+.title-cell {
+    width: 300px;
+}
+
+.papers-table th:nth-child(2),
+.abstract-cell {
+    width: 400px;
+    font-size: 14px;
+    line-height: 1.3;
+    color: #000;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.papers-table th:nth-child(3),
+.authors-cell {
+    width: 250px;
+    font-size: 14px;
+    color: #000;
+}
+
+.papers-table th:nth-child(4),
+.date-cell {
+    width: 100px;
+    white-space: nowrap;
+    font-size: 14px;
+    color: #000;
+}
+
+.papers-table th:nth-child(5),
+.date-added-cell {
+    width: 120px;
+    white-space: nowrap;
+    font-size: 14px;
+    color: #000;
+}
+
+.papers-table th:nth-child(6),
+.tags-cell {
+    width: 150px;
+}
+
+.papers-table th:nth-child(7),
+.comments-cell {
+    width: 200px;
+    font-size: 14px;
+    font-style: normal;
+    color: #000;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.papers-table th:nth-child(8),
+.actions-cell {
+    width: 180px;
+    white-space: nowrap;
+}
+
+.paper-row {
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.paper-row:hover {
+    background: #f8f9fa;
+}
+
+.paper-row.wrapped td {
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    height: auto;
+    max-height: none;
+    overflow: visible;
+}
+
+.paper-row.wrapped .abstract-cell {
+    max-height: none;
+    overflow-y: visible;
+}
+
+.papers-table td {
+    vertical-align: top;
+}
+
+.title-cell a {
+    color: #000;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.title-cell a:hover {
+    text-decoration: underline;
+    color: #3498db;
+}
+
+.papers-table td {
+    vertical-align: top;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+    color: #000;
+    font-size: 14px;
+}
+
+
+.tag {
+    display: inline-block;
+    background: #ecf0f1;
+    color: #000;
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-size: 12px;
+    margin-right: 3px;
+    margin-bottom: 2px;
+    line-height: 1.2;
+    vertical-align: middle;
+}
+
+.btn {
+    padding: 4px 8px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: opacity 0.3s;
+    height: 26px;
+}
+
+.btn:hover {
+    opacity: 0.8;
+}
+
+.btn-edit {
+    background: #3498db;
+    color: white;
+}
+
+.btn-delete {
+    background: #e74c3c;
+    color: white;
+}
+
+.btn-highlight {
+    background: #f39c12;
+    color: white;
+}
+
+.btn-highlight.highlighted {
+    background: #e67e22;
+}
+
+.highlighted-row {
+    background: #fff3cd !important;
+    border-left: 4px solid #f39c12;
+}
+
+.highlighted-row:hover {
+    background: #ffeeba !important;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: #e74c3c;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 8px;
+    border: 2px solid #e1e8ed;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.form-group textarea {
+    height: 80px;
+    resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+#editForm button {
+    background: #3498db;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+}
+
+#editForm button:hover {
+    background: #2980b9;
+}
+
+.tag-input-container {
+    position: relative;
+}
+
+.tag-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 2px solid #e1e8ed;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    max-height: 150px;
+    overflow-y: auto;
+    z-index: 1000;
+    display: none;
+}
+
+.tag-dropdown-item {
+    padding: 8px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 14px;
+}
+
+.tag-dropdown-item:hover {
+    background: #f8f9fa;
+}
+
+.tag-dropdown-item.selected {
+    background: #3498db;
+    color: white;
+}
+
+.tag-dropdown-item:last-child {
+    border-bottom: none;
+}
+
+.loading {
+    text-align: center;
+    padding: 40px;
+    color: #7f8c8d;
+}
+
+.error {
+    background: #e74c3c;
+    color: white;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #7f8c8d;
+}
+
+.empty-state h3 {
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+    
+    .add-paper form {
+        flex-direction: column;
+    }
+    
+    .filters {
+        flex-wrap: wrap;
+    }
+    
+    .papers-table-container {
+        overflow-x: auto;
+    }
+    
+    .papers-table {
+        min-width: 1200px;
+    }
+    
+    .papers-table th,
+    .papers-table td {
+        padding: 8px;
+        font-size: 0.9rem;
+    }
+}
