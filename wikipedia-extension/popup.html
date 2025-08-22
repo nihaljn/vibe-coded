@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      width: 100%;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f8f9fa;
+      box-sizing: border-box;
+    }
+    
+    h1 {
+      font-size: 18px;
+      margin: 0 0 20px 0;
+      color: #0645ad;
+      text-align: center;
+    }
+    
+    .tabs {
+      display: flex;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #a2a9b1;
+    }
+    
+    .tab {
+      padding: 10px 15px;
+      cursor: pointer;
+      border: none;
+      background: none;
+      font-size: 14px;
+      color: #0645ad;
+      border-bottom: 2px solid transparent;
+    }
+    
+    .tab.active {
+      border-bottom-color: #0645ad;
+      font-weight: bold;
+    }
+    
+    .tab-content {
+      display: none;
+      max-height: calc(100vh - 200px);
+      overflow-y: auto;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    .page-item {
+      padding: 10px;
+      margin-bottom: 10px;
+      background: white;
+      border: 1px solid #eaecf0;
+      border-radius: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    
+    .page-content {
+      flex: 1;
+    }
+    
+    .delete-page-btn {
+      background: none;
+      border: none;
+      color: #a2a9b1;
+      cursor: pointer;
+      font-size: 18px;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      margin-left: 10px;
+      flex-shrink: 0;
+    }
+    
+    .delete-page-btn:hover {
+      background: #f3f3f3;
+      color: #d33;
+    }
+    
+    .page-title {
+      font-weight: bold;
+      color: #0645ad;
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+    
+    .page-url {
+      font-size: 12px;
+      color: #72777d;
+      margin-bottom: 5px;
+      word-break: break-all;
+    }
+    
+    .page-stats {
+      font-size: 12px;
+      color: #222;
+    }
+    
+    .stat {
+      margin-right: 15px;
+    }
+    
+    .highlight-item, .note-item {
+      padding: 8px;
+      margin-bottom: 8px;
+      background: white;
+      border: 1px solid #eaecf0;
+      border-radius: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    
+    .highlight-content, .note-content {
+      flex: 1;
+    }
+    
+    .delete-highlight-btn, .delete-note-btn {
+      background: none;
+      border: none;
+      color: #a2a9b1;
+      cursor: pointer;
+      font-size: 18px;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      margin-left: 10px;
+      flex-shrink: 0;
+    }
+    
+    .delete-highlight-btn:hover, .delete-note-btn:hover {
+      background: #f3f3f3;
+      color: #d33;
+    }
+    
+    .highlight-text {
+      background: #ffeb3b;
+      padding: 2px 4px;
+      border-radius: 2px;
+    }
+    
+    .item-date {
+      font-size: 11px;
+      color: #72777d;
+      margin-top: 5px;
+    }
+    
+    .stats-summary {
+      background: white;
+      padding: 15px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      border: 1px solid #eaecf0;
+    }
+    
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+    }
+    
+    .stat-label {
+      color: #72777d;
+    }
+    
+    .stat-value {
+      font-weight: bold;
+      color: #0645ad;
+    }
+    
+    .clear-data {
+      background: #d33;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 20px;
+    }
+    
+    .clear-data:hover {
+      background: #b32;
+    }
+    
+    .empty-state {
+      text-align: center;
+      color: #72777d;
+      padding: 40px 20px;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <h1>📚 Wikipedia Tracker</h1>
+  
+  <div class="tabs">
+    <button class="tab active" data-tab="history">History</button>
+    <button class="tab" data-tab="highlights">Highlights</button>
+    <button class="tab" data-tab="notes">Notes</button>
+    <button class="tab" data-tab="stats">Stats</button>
+  </div>
+  
+  <div id="history-tab" class="tab-content active">
+    <div id="history-list"></div>
+  </div>
+  
+  <div id="highlights-tab" class="tab-content">
+    <div id="highlights-list"></div>
+  </div>
+  
+  <div id="notes-tab" class="tab-content">
+    <div id="notes-list"></div>
+  </div>
+  
+  <div id="stats-tab" class="tab-content">
+    <div class="stats-summary">
+      <div class="stat-row">
+        <span class="stat-label">Total Pages Visited:</span>
+        <span class="stat-value" id="total-pages">0</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Total Time Spent:</span>
+        <span class="stat-value" id="total-time">0 min</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Total Highlights:</span>
+        <span class="stat-value" id="total-highlights">0</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Total Notes:</span>
+        <span class="stat-value" id="total-notes">0</span>
+      </div>
+    </div>
+    
+    <button class="clear-data" id="clear-all-data">Clear All Data</button>
+    
+    <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #eaecf0;">
+      <h4 style="margin: 0 0 10px 0; color: #0645ad; font-size: 14px;">Data Management</h4>
+      <button id="export-data" style="background: #0645ad; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; margin-right: 10px; font-size: 12px;">Export Data</button>
+      <input type="file" id="import-file" accept=".json" style="display: none;">
+      <button id="import-data" style="background: #34a853; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px;">Import Data</button>
+    </div>
+  </div>
+  
+  <script src="storage.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

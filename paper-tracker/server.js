@@ -7,7 +7,7 @@ const cors = require('cors');
 
 const app = express();
 const PORT = 3000;
-const DATA_FILE = path.join(__dirname, 'data', 'papers.json');
+const DATA_FILE = path.join(__dirname, '..', 'data', 'paper-tracker', 'papers.json');
 
 app.use(cors());
 app.use(express.json());
